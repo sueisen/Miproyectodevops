@@ -2,7 +2,7 @@ const { describe, it, before, after } = require('node:test');
 const assert = require('node:assert/strict');
 const fs = require('node:fs');
 const path = require('node:path');
-const { createPool, isDatabaseConfigured } = require('../config/db');
+const { createPool, isDatabaseConfigured, ensureDatabaseExists } = require('../config/db');
 
 const configured = isDatabaseConfigured();
 const expectedTables = ['users', 'statuses', 'projects', 'tasks', 'task_assignments', 'activity_logs'];
@@ -15,6 +15,7 @@ describe(
     let insertedId;
 
     before(async () => {
+      await ensureDatabaseExists();
       pool = createPool();
     });
 
