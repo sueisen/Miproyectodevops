@@ -1,0 +1,18 @@
+{
+  "name": "miproyectodevops-backend",
+  "version": "1.0.0",
+  "description": "Backend para la gestión de proyectos y tareas",
+  "main": "index.js",
+  "scripts": {
+    "start": "node index.js",
+    "test": "jest"
+  },
+  "dependencies": {
+    "express": "^4.19.2",
+    "mysql2": "^3.9.7"
+  },
+  "devDependencies": {
+    "jest": "^29.7.0",
+    "supertest": "^6.3.4"
+  }
+}
