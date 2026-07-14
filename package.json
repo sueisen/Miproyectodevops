@@ -1,0 +1,32 @@
+{
+  "name": "miproyectodevops",
+  "version": "1.0.0",
+  "description": "Sistema web para la administración y seguimiento de tareas, desarrollado como proyecto integrador para la asignatura **Gestión de Procesos de Software**. El proyecto implementa prácticas modernas de desarrollo colaborativo y DevOps, incluyendo control de versiones, integración continua (CI), entrega y despliegue continuo (CD), monitoreo y evaluación del rendimiento.",
+  "main": "backend/app.js",
+  "directories": {
+    "doc": "docs"
+  },
+"scripts": {
+  "start": "node backend/app.js",
+  "test": "jest --runInBand"
+},
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/sueisen/Miproyectodevops.git"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "type": "commonjs",
+  "bugs": {
+    "url": "https://github.com/sueisen/Miproyectodevops/issues"
+  },
+  "homepage": "https://github.com/sueisen/Miproyectodevops#readme",
+  "dependencies": {
+    "express": "^5.2.1"
+  },
+  "devDependencies": {
+    "jest": "^30.4.2",
+    "supertest": "^7.2.2"
+  }
+}
