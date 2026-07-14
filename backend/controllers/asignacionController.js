@@ -1,8 +1,8 @@
-import {
+const {
     asignarResponsable, cambiarResponsable, eliminarResponsable,
     obtenerAsignacionesTarea, obtenerTodasAsignaciones,
     obtenerUsuarios, obtenerTareas
-} from "../models/asignacion.js";
+} = require("../models/asignacion");
 
 async function asignarResponsableController(req, res) {
     const { taskId, userId } = req.body;
@@ -58,7 +58,7 @@ async function obtenerTareasController(req, res) {
     res.json(result);
 }
 
-export {
+module.exports = {
     asignarResponsableController,
     cambiarResponsableController,
     eliminarResponsableController,

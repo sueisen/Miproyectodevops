@@ -1,5 +1,23 @@
 {
+  "name": "miproyectodevops",
+  "version": "1.0.0",
+  "description": "Sistema web para la administración y seguimiento de tareas",
+  "main": "backend/app.js",
+  "scripts": {
+    "start": "node backend/app.js",
+    "test": "jest --runInBand"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/sueisen/Miproyectodevops.git"
+  },
+  "type": "commonjs",
+  "license": "ISC",
   "dependencies": {
     "express": "^5.2.1"
+  },
+  "devDependencies": {
+    "jest": "^30.4.2",
+    "supertest": "^7.2.2"
   }
 }

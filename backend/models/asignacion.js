@@ -1,4 +1,4 @@
-import { asignaciones, usuarios, tareas } from "../../database/mock/mockData.js";
+const { asignaciones, usuarios, tareas } = require("../../database/mock/mockData");
 
 function delay(ms) {
     return new Promise(r => setTimeout(r, ms));
@@ -7,15 +7,12 @@ function delay(ms) {
 async function asignarResponsable(taskId, userId) {
     await delay(50);
     const tareaExiste = tareas.find(t => t.id === taskId);
-
     if (!tareaExiste) return { error: "Tarea no encontrada" };
 
     const usuarioExiste = usuarios.find(u => u.id === userId);
-
     if (!usuarioExiste) return { error: "Usuario no encontrado" };
 
     const isAsignado = asignaciones.find(a => a.taskId === taskId);
-
     if (isAsignado) return { error: "La tarea ya tiene un responsable asignado" };
 
     const asignacion = {
@@ -93,7 +90,7 @@ async function obtenerTareas() {
     return tareas;
 }
 
-export {
+module.exports = {
     asignarResponsable,
     cambiarResponsable,
     eliminarResponsable,

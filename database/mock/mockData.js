@@ -12,4 +12,4 @@ const tareas = [
 
 const asignaciones = [];
 
-export { usuarios, tareas, asignaciones };
+module.exports = { usuarios, tareas, asignaciones };

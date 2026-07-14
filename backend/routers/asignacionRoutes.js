@@ -1,5 +1,5 @@
-import express from "express";
-import {
+const express = require("express");
+const {
     asignarResponsableController,
     cambiarResponsableController,
     eliminarResponsableController,
@@ -7,7 +7,7 @@ import {
     obtenerTodasAsignacionesController,
     obtenerUsuariosController,
     obtenerTareasController
-} from "../controllers/asignacionController.js";
+} = require("../controllers/asignacionController");
 
 const router = express.Router();
 
@@ -19,4 +19,4 @@ router.get("/asignaciones", obtenerTodasAsignacionesController);
 router.get("/usuarios", obtenerUsuariosController);
 router.get("/tareas", obtenerTareasController);
 
-export default router;
+module.exports = router;
