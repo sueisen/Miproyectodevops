@@ -6,10 +6,10 @@
   "directories": {
     "doc": "docs"
   },
-"scripts": {
-  "start": "node backend/app.js",
-  "test": "jest --runInBand"
-},
+  "scripts": {
+    "start": "node backend/app.js",
+    "test": "jest --runInBand"
+  },
   "repository": {
     "type": "git",
     "url": "git+https://github.com/sueisen/Miproyectodevops.git"
@@ -23,9 +23,9 @@
   },
   "homepage": "https://github.com/sueisen/Miproyectodevops#readme",
   "dependencies": {
+    "dotenv": "^16.6.1",
     "express": "^5.2.1",
-    "mysql2": "^3.11.0",
-    "dotenv": "^16.4.5"
+    "mysql2": "^3.11.0"
   },
   "devDependencies": {
     "jest": "^30.4.2",
