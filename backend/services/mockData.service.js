@@ -1,0 +1,72 @@
+// Almacenamiento temporal en memoria para proyectos y tareas.
+//
+// El CRUD real (con persistencia en MySQL usando las tablas `projects`
+// y `tasks` del esquema) es responsabilidad de las Issues de
+// "Proyectos" y "Estados de tarea" (ver ramas feature/proyectos y
+// feature/states). Este módulo existe únicamente para poder crear
+// proyectos/tareas y cambiar su estado mientras se construye la
+// funcionalidad de Registro de actividad (Logs), y debe reemplazarse
+// por los modelos reales cuando esas Issues se integren a develop.
+
+let projects = [];
+let tasks = [];
+let nextProjectId = 1;
+let nextTaskId = 1;
+
+function crearProyecto({ name, description = null }) {
+  const project = {
+    id: nextProjectId++,
+    name,
+    description,
+    created_at: new Date()
+  };
+  projects.push(project);
+  return project;
+}
+
+function obtenerProyecto(id) {
+  return projects.find((project) => project.id === Number(id));
+}
+
+function crearTarea(projectId, { title, description = null }) {
+  const task = {
+    id: nextTaskId++,
+    project_id: Number(projectId),
+    title,
+    description,
+    status: 'Pendiente',
+    created_at: new Date(),
+    updated_at: new Date()
+  };
+  tasks.push(task);
+  return task;
+}
+
+function obtenerTarea(id) {
+  return tasks.find((task) => task.id === Number(id));
+}
+
+function cambiarEstadoTarea(id, status) {
+  const task = obtenerTarea(id);
+  if (!task) return null;
+  task.status = status;
+  task.updated_at = new Date();
+  return task;
+}
+
+/** Solo para pruebas: limpia los datos guardados en memoria. */
+function _resetStores() {
+  projects = [];
+  tasks = [];
+  nextProjectId = 1;
+  nextTaskId = 1;
+}
+
+module.exports = {
+  crearProyecto,
+  obtenerProyecto,
+  crearTarea,
+  obtenerTarea,
+  cambiarEstadoTarea,
+  _resetStores
+};
