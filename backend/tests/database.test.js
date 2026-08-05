@@ -4,6 +4,7 @@ const { createPool, isDatabaseConfigured, ensureDatabaseExists } = require('../c
 
 const configured = isDatabaseConfigured();
 const expectedTables = ['users', 'statuses', 'projects', 'tasks', 'task_assignments', 'activity_logs'];
+
 const describeIfConfigured = configured ? describe : describe.skip;
 
 describeIfConfigured('Base de datos (Issue #2)', () => {

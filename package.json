@@ -14,9 +14,9 @@
   "type": "commonjs",
   "license": "ISC",
   "dependencies": {
+    "dotenv": "^16.6.1",
     "express": "^5.2.1",
-    "mysql2": "^3.11.0",
-    "dotenv": "^16.4.5"
+    "mysql2": "^3.11.0"
   },
   "devDependencies": {
     "jest": "^30.4.2",
