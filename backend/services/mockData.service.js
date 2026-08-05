@@ -8,8 +8,30 @@
 
 let projects = [];
 let tasks = [];
+let users = [];
 let nextProjectId = 1;
 let nextTaskId = 1;
+let nextUserId = 1;
+
+function crearUsuario({ username, password, name = null }) {
+  const user = {
+    id: nextUserId++,
+    username,
+    password,
+    name,
+    created_at: new Date()
+  };
+  users.push(user);
+  return user;
+}
+
+function obtenerUsuarioPorUsername(username) {
+  return users.find((user) => user.username === username);
+}
+
+function listarUsuarios() {
+  return users;
+}
 
 function crearProyecto({ name, description = null }) {
   const project = {
@@ -98,8 +120,10 @@ function cambiarEstadoTarea(id, status) {
 function _resetStores() {
   projects = [];
   tasks = [];
+  users = [];
   nextProjectId = 1;
   nextTaskId = 1;
+  nextUserId = 1;
 }
 
 module.exports = {
@@ -114,5 +138,8 @@ module.exports = {
   actualizarTarea,
   eliminarTarea,
   cambiarEstadoTarea,
+  crearUsuario,
+  obtenerUsuarioPorUsername,
+  listarUsuarios,
   _resetStores
 };

@@ -1,3 +1,4 @@
+const path = require("path");
 const express = require("express");
 const logService = require("./services/log.service");
 const mockDataService = require("./services/mockData.service");
@@ -8,12 +9,20 @@ const PORT = process.env.PORT || 3000;
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 
-// Ruta principal para pruebas de integración (incoming)
-app.get("/", (req, res) => {
+// Healthcheck para pruebas de integración y monitoreo
+app.get("/api/status", (req, res) => {
   res.status(200).json({
     message: "Servidor funcionando correctamente"
   });
 });
+
+// Sirve el frontend estático (login, dashboard, css, js).
+// "/" sirve frontend/index.html, que redirige a la pantalla de login.
+app.use(express.static(path.join(__dirname, "..", "frontend")));
+
+// Usuario admin fijo mientras no hay tabla de usuarios real conectada.
+const ADMIN_USERNAME = "campas";
+const ADMIN_PASSWORD = "idsm41";
 
 // Ruta para el código login (current)
 app.post('/api/auth/login', async (req, res) => {
@@ -23,14 +32,16 @@ app.post('/api/auth/login', async (req, res) => {
         return res.status(400).json({ success: false, message: 'Campos vacios no permiten enviar el formulario.' });
     }
 
-    const usuarioValido = "campas";
-    const contrasenaValida = "idsm41";
+    const isAdmin = username === ADMIN_USERNAME;
+    const registeredUser = mockDataService.obtenerUsuarioPorUsername(username);
 
-    if (username !== usuarioValido) {
+    if (!isAdmin && !registeredUser) {
         return res.status(401).json({ success: false, message: 'Usuario incorrecto muestra error.' });
     }
 
-    if (password !== contrasenaValida) {
+    const validPassword = isAdmin ? ADMIN_PASSWORD : registeredUser.password;
+
+    if (password !== validPassword) {
         return res.status(401).json({ success: false, message: 'Contraseña incorrecta muestra error.' });
     }
 
@@ -38,7 +49,7 @@ app.post('/api/auth/login', async (req, res) => {
         await logService.registrarLog({
             action: 'inicio_sesion',
             entityType: 'user',
-            entityId: null
+            entityId: registeredUser ? registeredUser.id : null
         });
     } catch (err) {
         console.error('No se pudo registrar el log de inicio de sesión:', err.message);
@@ -47,7 +58,34 @@ app.post('/api/auth/login', async (req, res) => {
     return res.status(200).json({
         success: true,
         message: 'Usuario valido inicia sesion.',
-        user: { username: usuarioValido }
+        user: { username: isAdmin ? ADMIN_USERNAME : registeredUser.username }
+    });
+});
+
+// Ruta para registrar un usuario nuevo (mock en memoria, registra actividad)
+app.post('/api/auth/register', async (req, res) => {
+    const { username, password, name } = req.body;
+
+    if (!username || !password || username.trim() === "" || password.trim() === "") {
+        return res.status(400).json({ success: false, message: 'Usuario y contraseña son obligatorios.' });
+    }
+
+    if (username === ADMIN_USERNAME || mockDataService.obtenerUsuarioPorUsername(username)) {
+        return res.status(409).json({ success: false, message: 'Ese usuario ya existe.' });
+    }
+
+    const user = mockDataService.crearUsuario({ username, password, name });
+
+    await logService.registrarLog({
+        action: 'registro_usuario',
+        entityType: 'user',
+        entityId: user.id
+    });
+
+    return res.status(201).json({
+        success: true,
+        message: 'Usuario registrado correctamente.',
+        user: { id: user.id, username: user.username, name: user.name }
     });
 });
 
