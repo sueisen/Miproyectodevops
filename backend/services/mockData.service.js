@@ -59,30 +59,10 @@ function _resetStores() {
   nextProjectId = 1;
   nextTaskId = 1;
 }
-function listarProyectos() {
-  return projects;
-}
 
-function actualizarProyecto(id, { name, description }) {
-  const project = obtenerProyecto(id);
-  if (!project) return null;
-  if (name !== undefined) project.name = name;
-  if (description !== undefined) project.description = description;
-  return project;
-}
-
-function eliminarProyecto(id) {
-  const index = projects.findIndex((project) => project.id === Number(id));
-  if (index === -1) return false;
-  projects.splice(index, 1);
-  return true;
-}
 module.exports = {
   crearProyecto,
   obtenerProyecto,
-  listarProyectos,
-  actualizarProyecto,
-  eliminarProyecto,
   crearTarea,
   obtenerTarea,
   cambiarEstadoTarea,
