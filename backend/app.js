@@ -19,26 +19,21 @@ app.get("/", (req, res) => {
 app.post('/api/auth/login', async (req, res) => {
     const { username, password } = req.body;
 
-    // Validación de datos
     if (!username || !password || username.trim() === "" || password.trim() === "") {
         return res.status(400).json({ success: false, message: 'Campos vacios no permiten enviar el formulario.' });
     }
 
-    // Simulación de datos para entrar al login
     const usuarioValido = "campas";
     const contrasenaValida = "idsm41";
 
-    // En caso de usuario invalido
     if (username !== usuarioValido) {
         return res.status(401).json({ success: false, message: 'Usuario incorrecto muestra error.' });
     }
 
-    // Caso de contraseña invalida
     if (password !== contrasenaValida) {
         return res.status(401).json({ success: false, message: 'Contraseña incorrecta muestra error.' });
     }
 
-    // Registro de actividad: inicio de sesión exitoso
     try {
         await logService.registrarLog({
             action: 'inicio_sesion',
@@ -49,7 +44,6 @@ app.post('/api/auth/login', async (req, res) => {
         console.error('No se pudo registrar el log de inicio de sesión:', err.message);
     }
 
-    // Caso de validación correcto
     return res.status(200).json({
         success: true,
         message: 'Usuario valido inicia sesion.',
@@ -74,6 +68,67 @@ app.post('/api/projects', async (req, res) => {
     });
 
     return res.status(201).json({ success: true, project });
+});
+
+// Ruta para listar todos los proyectos
+app.get('/api/projects', async (req, res) => {
+    const projects = mockDataService.listarProyectos();
+    return res.status(200).json({ success: true, projects });
+});
+
+// Ruta para obtener un proyecto por id
+app.get('/api/projects/:projectId', async (req, res) => {
+    const { projectId } = req.params;
+    const project = mockDataService.obtenerProyecto(projectId);
+
+    if (!project) {
+        return res.status(404).json({ success: false, message: 'Proyecto no encontrado.' });
+    }
+
+    return res.status(200).json({ success: true, project });
+});
+
+// Ruta para editar un proyecto (registra actividad)
+app.put('/api/projects/:projectId', async (req, res) => {
+    const { projectId } = req.params;
+    const { name, description } = req.body;
+
+    if (name !== undefined && name.trim() === "") {
+        return res.status(400).json({ success: false, message: 'El nombre del proyecto no puede estar vacío.' });
+    }
+
+    const project = mockDataService.actualizarProyecto(projectId, { name, description });
+
+    if (!project) {
+        return res.status(404).json({ success: false, message: 'Proyecto no encontrado.' });
+    }
+
+    await logService.registrarLog({
+        action: 'editar_proyecto',
+        entityType: 'project',
+        entityId: project.id
+    });
+
+    return res.status(200).json({ success: true, project });
+});
+
+// Ruta para eliminar un proyecto (registra actividad)
+app.delete('/api/projects/:projectId', async (req, res) => {
+    const { projectId } = req.params;
+
+    const eliminado = mockDataService.eliminarProyecto(projectId);
+
+    if (!eliminado) {
+        return res.status(404).json({ success: false, message: 'Proyecto no encontrado.' });
+    }
+
+    await logService.registrarLog({
+        action: 'eliminar_proyecto',
+        entityType: 'project',
+        entityId: Number(projectId)
+    });
+
+    return res.status(200).json({ success: true, message: 'Proyecto eliminado correctamente.' });
 });
 
 // Ruta para crear una tarea dentro de un proyecto (registra actividad)
