@@ -2,10 +2,8 @@
 //
 // El CRUD real (con persistencia en MySQL usando las tablas `projects`
 // y `tasks` del esquema) es responsabilidad de las Issues de
-// "Proyectos" y "Estados de tarea" (ver ramas feature/proyectos y
-// feature/states). Este módulo existe únicamente para poder crear
-// proyectos/tareas y cambiar su estado mientras se construye la
-// funcionalidad de Registro de actividad (Logs), y debe reemplazarse
+// "Proyectos" y "Estados de tarea" (ver ramas feature/proyectos y feature/states). 
+// proyectos/tareas y cambiar su estado mientras se construye la funcionalidad de Registro de actividad (Logs), y debe reemplazarse
 // por los modelos reales cuando esas Issues se integren a develop.
 
 let projects = [];

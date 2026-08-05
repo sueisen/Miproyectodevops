@@ -1,14 +1,11 @@
 const { createPool, isDatabaseConfigured } = require('../config/db');
 
-// Si hay credenciales de MySQL configuradas (.env) usamos la tabla real
-// activity_logs. Si no (por ejemplo en CI o al correr las pruebas sin
-// MySQL instalado), guardamos los registros en memoria para que la
-// funcionalidad y sus pruebas sigan funcionando igual.
+// Si hay credenciales de MySQL configuradas (.env) usamos la tabla real activity_logs. Si no (por ejemplo en CI o al correr las pruebas sin
+// MySQL instalado), guardamos los registros en memoria para que la funcionalidad y sus pruebas sigan funcionando igual.
 const pool = isDatabaseConfigured() ? createPool() : null;
 
 // Usuario admin sembrado por database/seed/seed.sql (id 1). Se usa como
-// autor del log del login mientras el login siga simulado y no dependa
-// de una tabla de usuarios real.
+// autor del log del login mientras el login siga simulado y no dependa de una tabla de usuarios real.
 const DEFAULT_USER_ID = 1;
 
 let memoryLogs = [];
