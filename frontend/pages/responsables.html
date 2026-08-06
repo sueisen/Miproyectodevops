@@ -1,0 +1,89 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Asignacion de Responsables</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+</head>
+<body>
+    <nav class="navbar navbar-dark bg-dark mb-4">
+        <div class="container">
+            <a class="nav-link text-light" href="../index.html">Inicio</a>
+            <a class="nav-link text-light" href="#">Responsables</a>
+        </div>
+    </nav>
+
+    <div class="container">
+        <h1 class="mb-4">Asignacion de Responsables</h1>
+
+        <button class="btn btn-primary mb-3" onclick="abrirModalAsignar()">Nueva Asignacion</button>
+
+        <table class="tabla table mb-0">
+            <thead>
+                <tr>
+                    <th>ID</th>
+                    <th>Tarea</th>
+                    <th>Descripción</th>
+                    <th>Responsable</th>
+                    <th>Fecha</th>
+                    <th>Acciones</th>
+                </tr>
+            </thead>
+            <tbody id="bodyTabla"></tbody>
+        </table>
+    </div>
+
+    <!-- Modal Asignar -->
+    <div class="modal fade" id="modalAsignar" tabindex="-1">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title">Asignar Responsable</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+                </div>
+                <div class="modal-body">
+                    <div class="mb-3">
+                        <label class="form-label">Tarea</label>
+                        <select class="form-select" id="selectTarea"></select>
+                    </div>
+                    <div class="mb-3">
+                        <label class="form-label">Responsable</label>
+                        <select class="form-select" id="selectUsuario"></select>
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button class="btn btn-secondary" data-bs-dismiss="modal">Cancelar</button>
+                    <button class="btn btn-primary" onclick="asignar()">Guardar</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Modal Cambiar -->
+    <div class="modal fade" id="modalCambiar" tabindex="-1">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title">Cambiar Responsable</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+                </div>
+                <div class="modal-body">
+                    <input type="hidden" id="idAsignacion">
+                    <div class="mb-3">
+                        <label class="form-label">Nuevo Responsable</label>
+                        <select class="form-select" id="selectNuevoUsuario"></select>
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button class="btn btn-secondary" data-bs-dismiss="modal">Cancelar</button>
+                    <button class="btn btn-warning" onclick="cambiar()">Cambiar</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="../js/responsables.js"></script>
+</body>
+</html>
