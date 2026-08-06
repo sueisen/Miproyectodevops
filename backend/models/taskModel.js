@@ -70,10 +70,24 @@ async function remove(id) {
   );
 }
 
+async function updateStatus(id, statusId) {
+
+    await pool.query(
+        `UPDATE tasks
+         SET status_id = ?
+         WHERE id = ?`,
+        [statusId, id]
+    );
+
+    return findById(id);
+
+}
+
 module.exports = {
     findAll,
     findById,
     create,
     update,
+    updateStatus,
     remove
 };

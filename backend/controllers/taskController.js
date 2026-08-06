@@ -102,11 +102,31 @@ async function remove(req,res,next){
 }
 
 
+async function changeStatus(req,res,next){
+
+    try{
+
+        const task =
+            await taskService.changeTaskStatus(
+                req.params.id,
+                req.body.status_id
+            );
+
+        res.json(task);
+
+    }catch(error){
+
+        next(error);
+
+    }
+
+}
 
 module.exports = {
     getAll,
     getOne,
     create,
     update,
-    remove
+    remove,
+    changeStatus
 };

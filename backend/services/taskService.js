@@ -52,11 +52,37 @@ async function deleteTask(id) {
     return await taskModel.remove(id);
 }
 
+async function changeTaskStatus(id, newStatus) {
+
+    const task = await taskModel.findById(id);
+
+    if (!task) {
+        throw new Error("Task not found");
+    }
+
+    const current = task.status_id;
+
+    const validTransitions = {
+        1: 2,
+        2: 3
+    };
+
+    if (validTransitions[current] !== newStatus) {
+        throw new Error("Invalid status transition");
+    }
+
+    return await taskModel.updateStatus(
+        id,
+        newStatus
+    );
+
+}
 
 module.exports = {
     listTasks,
     getTask,
     createTask,
     updateTask,
-    deleteTask
+    deleteTask,
+    changeTaskStatus
 };

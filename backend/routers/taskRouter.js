@@ -39,6 +39,9 @@ router.delete(
     taskController.remove
 );
 
-
+router.patch(
+    "/:id/status",
+    taskController.changeStatus
+);
 
 module.exports = router;
