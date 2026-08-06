@@ -3,6 +3,7 @@ const express = require("express");
 const logService = require("./services/log.service");
 const mockDataService = require("./services/mockData.service");
 const asignacionRoutes = require("./routers/asignacionRoutes");
+const taskRouter = require("./routers/taskRouter");
 
 const app = express();
 const PORT = process.env.PORT || 3000;
@@ -18,6 +19,7 @@ app.get("/api/status", (req, res) => {
 });
 
 app.use("/api", asignacionRoutes);
+app.use("/api/tasks", taskRouter);
 
 // Sirve el frontend estático (login, dashboard, css, js).
 // "/" sirve frontend/index.html, que redirige a la pantalla de login.
