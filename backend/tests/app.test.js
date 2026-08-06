@@ -2,14 +2,14 @@ const request = require("supertest");
 const app = require("../app");
 
 describe("Servidor Express", () => {
-  test("la ruta principal responde con código HTTP 200", async () => {
-    const response = await request(app).get("/");
+  test("el healthcheck responde con código HTTP 200", async () => {
+    const response = await request(app).get("/api/status");
 
     expect(response.statusCode).toBe(200);
   });
 
-  test("la ruta principal devuelve el mensaje correcto", async () => {
-    const response = await request(app).get("/");
+  test("el healthcheck devuelve el mensaje correcto", async () => {
+    const response = await request(app).get("/api/status");
 
     expect(response.body).toEqual({
       message: "Servidor funcionando correctamente"
