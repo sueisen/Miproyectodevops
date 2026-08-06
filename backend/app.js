@@ -1,4 +1,5 @@
 const express = require("express");
+const taskRoutes = require("./routers/task.routes");
 const logService = require("./services/log.service");
 const mockDataService = require("./services/mockData.service");
 
@@ -6,6 +7,7 @@ const app = express();
 const PORT = process.env.PORT || 3000;
 
 app.use(express.json());
+app.use("/api/tasks", taskRoutes);
 app.use(express.urlencoded({ extended: true }));
 
 // Ruta principal para pruebas de integración (incoming)
