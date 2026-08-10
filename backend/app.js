@@ -1,5 +1,6 @@
 const path = require("path");
 const express = require("express");
+const taskRoutes = require("./routers/task.routes");
 const logService = require("./services/log.service");
 const mockDataService = require("./services/mockData.service");
 const asignacionRoutes = require("./routers/asignacionRoutes");
@@ -9,6 +10,7 @@ const app = express();
 const PORT = process.env.PORT || 3000;
 
 app.use(express.json());
+app.use("/api/tasks", taskRoutes);
 app.use(express.urlencoded({ extended: true }));
 
 // Healthcheck para pruebas de integración y monitoreo
