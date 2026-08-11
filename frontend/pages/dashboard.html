@@ -3,228 +3,331 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Proyectos - TaskFlow</title>
+    <title>Home</title>
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css">
     <style>
-        body { background-color: #f4f6f9; }
-        .page-container { max-width: 900px; margin-top: 60px; margin-bottom: 60px; }
+        body {
+            background: #f8f9fc;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        }
+        .navbar-custom {
+            background: linear-gradient(135deg, #1e3c72 0%, #2a5298 100%);
+            box-shadow: 0 2px 8px rgba(0,0,0,0.15);
+        }
+        .navbar-custom .navbar-brand,
+        .navbar-custom .nav-link {
+            color: #fff !important;
+            font-weight: 500;
+        }
+        .navbar-custom .nav-link:hover {
+            color: rgba(255,255,255,0.8) !important;
+        }
+        .navbar-custom .nav-link.active {
+            font-weight: 600;
+            border-bottom: 2px solid #fff;
+        }
+        .stat-card {
+            border: none;
+            border-radius: 16px;
+            background: white;
+            box-shadow: 0 4px 12px rgba(0,0,0,0.05);
+            transition: transform 0.2s;
+            padding: 1.25rem;
+        }
+        .stat-card:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 8px 20px rgba(0,0,0,0.08);
+        }
+        .stat-icon {
+            font-size: 2rem;
+            opacity: 0.7;
+        }
+        .stat-number {
+            font-size: 2.2rem;
+            font-weight: 700;
+            margin: 0;
+            line-height: 1.2;
+        }
+        .stat-label {
+            font-size: 0.85rem;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+            color: #6c757d;
+        }
+        .progress-card {
+            border: none;
+            border-radius: 16px;
+            background: white;
+            box-shadow: 0 4px 12px rgba(0,0,0,0.05);
+            padding: 1.25rem;
+        }
+        .progress-bar-custom {
+            height: 12px;
+            border-radius: 10px;
+            background: #e9ecef;
+            overflow: hidden;
+        }
+        .progress-fill {
+            height: 100%;
+            border-radius: 10px;
+            background: linear-gradient(90deg, #28a745, #20c997);
+            width: 0%;
+            transition: width 0.6s ease;
+        }
+        .project-list-card {
+            border: none;
+            border-radius: 16px;
+            box-shadow: 0 4px 12px rgba(0,0,0,0.05);
+            background: white;
+            overflow: hidden;
+        }
+        .table-custom th {
+            border-top: none;
+            font-weight: 600;
+            color: #495057;
+            font-size: 0.8rem;
+            text-transform: uppercase;
+            letter-spacing: 0.3px;
+            background: #f8f9fc;
+        }
+        .table-custom td {
+            vertical-align: middle;
+            padding: 0.75rem 1rem;
+        }
+        .empty-state {
+            padding: 40px 0;
+            color: #adb5bd;
+            text-align: center;
+        }
     </style>
 </head>
 <body>
 
-<div class="container page-container">
-    <div class="d-flex justify-content-between align-items-center mb-4">
-        <h3 class="mb-0">Proyectos</h3>
-        <div>
-            <button type="button" class="btn btn-primary" id="btnNuevoProyecto">+ Nuevo proyecto</button>
-            <button type="button" class="btn btn-outline-secondary" id="btnLogout">Cerrar sesión</button>
+<nav class="navbar navbar-expand-lg navbar-custom">
+    <div class="container">
+        <a class="navbar-brand" href="#">
+            <i class="bi bi-kanban-fill me-2"></i>Inicio
+        </a>
+        <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+            <span class="navbar-toggler-icon"></span>
+        </button>
+        <div class="collapse navbar-collapse" id="navbarNav">
+            <ul class="navbar-nav me-auto">
+                <li class="nav-item">
+                    <a class="nav-link active" href="/pages/dashboard.html">
+                        <i class="bi bi-speedometer2 me-1"></i>Dashboard
+                    </a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="/pages/projects.html">
+                        <i class="bi bi-folder me-1"></i>Proyectos
+                    </a>
+                </li>
+                <li class="nav-item">
+                    <!-- Cambio: "Responsables" → "Tareas", manteniendo el enlace a responsables.html -->
+                    <a class="nav-link" href="/pages/responsables.html">
+                        <i class="bi bi-list-task me-1"></i>Tareas
+                    </a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="/pages/login.html">
+                        <i class="bi bi-box-arrow-in-right me-1"></i>Login
+                    </a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="/pages/register.html">
+                        <i class="bi bi-person-plus me-1"></i>Registro
+                    </a>
+                </li>
+            </ul>
+            <button class="btn btn-outline-light btn-sm" id="btnLogout">
+                <i class="bi bi-box-arrow-right me-1"></i>Salir
+            </button>
         </div>
+    </div>
+</nav>
+
+<!-- ========== CONTENIDO ========== -->
+<div class="container py-4">
+    <div class="mb-4">
+        <h4 class="mb-0 fw-bold">Resumen general</h4>
+        <p class="text-muted">Vista global de proyectos y tareas</p>
     </div>
 
     <div id="listErrorMessage" class="alert alert-danger d-none" role="alert"></div>
 
-    <div class="table-responsive shadow-sm bg-white rounded">
-        <table class="table align-middle mb-0">
-            <thead>
-                <tr>
-                    <th>Nombre</th>
-                    <th>Descripción</th>
-                    <th>Creado</th>
-                    <th class="text-end">Acciones</th>
-                </tr>
-            </thead>
-            <tbody id="projectsTableBody">
-            </tbody>
-        </table>
+    <!-- Tarjetas de estadísticas -->
+    <div class="row g-4 mb-4">
+        <div class="col-md-3 col-6">
+            <div class="stat-card h-100">
+                <div class="d-flex justify-content-between align-items-start">
+                    <div>
+                        <div class="stat-label">Proyectos</div>
+                        <div class="stat-number" id="totalProjects">0</div>
+                    </div>
+                    <i class="bi bi-folder2-open stat-icon text-primary"></i>
+                </div>
+            </div>
+        </div>
+        <div class="col-md-3 col-6">
+            <div class="stat-card h-100">
+                <div class="d-flex justify-content-between align-items-start">
+                    <div>
+                        <div class="stat-label">Tareas totales</div>
+                        <div class="stat-number" id="totalTasks">0</div>
+                    </div>
+                    <i class="bi bi-list-task stat-icon text-success"></i>
+                </div>
+            </div>
+        </div>
+        <div class="col-md-3 col-6">
+            <div class="stat-card h-100">
+                <div class="d-flex justify-content-between align-items-start">
+                    <div>
+                        <div class="stat-label">Pendientes</div>
+                        <div class="stat-number" id="pendingTasks">0</div>
+                    </div>
+                    <i class="bi bi-hourglass-split stat-icon text-warning"></i>
+                </div>
+            </div>
+        </div>
+        <div class="col-md-3 col-6">
+            <div class="stat-card h-100">
+                <div class="d-flex justify-content-between align-items-start">
+                    <div>
+                        <div class="stat-label">Finalizadas</div>
+                        <div class="stat-number" id="completedTasks">0</div>
+                    </div>
+                    <i class="bi bi-check-circle stat-icon text-info"></i>
+                </div>
+            </div>
+        </div>
     </div>
-    <p id="emptyMessage" class="text-muted text-center mt-3 d-none">No hay proyectos todavía.</p>
-</div>
 
-<!-- Modal crear/editar proyecto -->
-<div class="modal fade" id="projectModal" tabindex="-1" aria-hidden="true">
-    <div class="modal-dialog">
-        <div class="modal-content">
-            <form id="projectForm">
-                <div class="modal-header">
-                    <h5 class="modal-title" id="projectModalTitle">Nuevo proyecto</h5>
-                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Cerrar"></button>
+    <!-- Barra de progreso -->
+    <div class="progress-card mb-4">
+        <div class="row align-items-center">
+            <div class="col-md-3">
+                <h6 class="mb-0"><i class="bi bi-graph-up-arrow me-2 text-success"></i>Progreso</h6>
+                <small class="text-muted">Completadas vs totales</small>
+            </div>
+            <div class="col-md-9">
+                <div class="progress-bar-custom">
+                    <div class="progress-fill" id="progressFill" style="width: 0%;"></div>
                 </div>
-                <div class="modal-body">
-                    <input type="hidden" id="projectId">
-
-                    <div class="mb-3">
-                        <label for="projectName" class="form-label">Nombre</label>
-                        <input type="text" class="form-control" id="projectName" required>
-                    </div>
-
-                    <div class="mb-3">
-                        <label for="projectDescription" class="form-label">Descripción</label>
-                        <textarea class="form-control" id="projectDescription" rows="3"></textarea>
-                    </div>
-
-                    <div id="formErrorMessage" class="alert alert-danger d-none" role="alert"></div>
+                <div class="d-flex justify-content-between mt-1">
+                    <span id="progressPercent" class="fw-bold">0%</span>
+                    <span id="progressText" class="text-muted">0 de 0 tareas</span>
                 </div>
-                <div class="modal-footer">
-                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancelar</button>
-                    <button type="submit" class="btn btn-primary">Guardar</button>
-                </div>
-            </form>
+            </div>
+        </div>
+    </div>
+
+    <!-- Lista de proyectos -->
+    <div class="project-list-card">
+        <div class="card-header bg-transparent border-0 pt-3 pb-0">
+            <h5 class="mb-0"><i class="bi bi-kanban me-2"></i>Lista de proyectos</h5>
+        </div>
+        <div class="card-body p-0">
+            <div class="table-responsive">
+                <table class="table table-custom mb-0">
+                    <thead>
+                        <tr>
+                            <th>Nombre</th>
+                            <th>Descripción</th>
+                            <th>Creado</th>
+                        </tr>
+                    </thead>
+                    <tbody id="projectsTableBody"></tbody>
+                </table>
+            </div>
+            <p id="emptyMessage" class="text-center text-muted d-none my-3">No hay proyectos registrados.</p>
         </div>
     </div>
 </div>
 
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
 <script>
-const tableBody = document.getElementById('projectsTableBody');
-const emptyMessage = document.getElementById('emptyMessage');
-const listErrorMessage = document.getElementById('listErrorMessage');
+    const tableBody = document.getElementById('projectsTableBody');
+    const emptyMessage = document.getElementById('emptyMessage');
+    const listErrorMessage = document.getElementById('listErrorMessage');
 
-const projectModalEl = document.getElementById('projectModal');
-const projectModal = new bootstrap.Modal(projectModalEl);
-const projectModalTitle = document.getElementById('projectModalTitle');
-const projectForm = document.getElementById('projectForm');
-const projectIdInput = document.getElementById('projectId');
-const projectNameInput = document.getElementById('projectName');
-const projectDescriptionInput = document.getElementById('projectDescription');
-const formErrorMessage = document.getElementById('formErrorMessage');
+    // Botón de cierre de sesión
+    document.getElementById('btnLogout').addEventListener('click', () => {
+        window.location.href = '/pages/login.html';
+    });
 
-document.getElementById('btnNuevoProyecto').addEventListener('click', () => {
-    openModal();
-});
+    // Carga inicial
+    loadProjects();
+    loadStats();
 
-document.getElementById('btnLogout').addEventListener('click', () => {
-    window.location.href = '/pages/login.html';
-});
+    // Funciones del dashboard 
+    async function loadStats() {
+        try {
+            const response = await fetch('/api/dashboard/stats');
+            const data = await response.json();
+            if (data.success) {
+                const s = data.stats;
+                document.getElementById('totalProjects').textContent = s.totalProjects;
+                document.getElementById('totalTasks').textContent = s.totalTasks;
+                document.getElementById('pendingTasks').textContent = s.pending;
+                document.getElementById('completedTasks').textContent = s.completed;
 
-projectForm.addEventListener('submit', handleSubmit);
-projectModalEl.addEventListener('hidden.bs.modal', resetForm);
-
-loadProjects();
-
-function openModal(project = null) {
-    resetForm();
-    if (project) {
-        projectModalTitle.textContent = 'Editar proyecto';
-        projectIdInput.value = project.id;
-        projectNameInput.value = project.name;
-        projectDescriptionInput.value = project.description || '';
-    } else {
-        projectModalTitle.textContent = 'Nuevo proyecto';
-    }
-    projectModal.show();
-}
-
-function resetForm() {
-    projectForm.reset();
-    projectIdInput.value = '';
-    formErrorMessage.classList.add('d-none');
-}
-
-async function loadProjects() {
-    listErrorMessage.classList.add('d-none');
-    try {
-        const response = await fetch('/api/projects');
-        const data = await response.json();
-
-        if (!response.ok || !data.success) {
-            throw new Error(data.message || 'No se pudieron cargar los proyectos.');
+                const total = s.totalTasks;
+                const completed = s.completed;
+                const percent = total > 0 ? Math.round((completed / total) * 100) : 0;
+                document.getElementById('progressFill').style.width = percent + '%';
+                document.getElementById('progressPercent').textContent = percent + '%';
+                document.getElementById('progressText').textContent = `${completed} de ${total} tareas`;
+            } else {
+                console.error('Error al cargar estadísticas:', data.message);
+            }
+        } catch (error) {
+            console.error('Error en la petición de estadísticas:', error);
         }
-
-        renderProjects(data.projects);
-    } catch (error) {
-        listErrorMessage.textContent = error.message;
-        listErrorMessage.classList.remove('d-none');
     }
-}
 
-function renderProjects(projects) {
-    tableBody.innerHTML = '';
-
-    if (!projects || projects.length === 0) {
-        emptyMessage.classList.remove('d-none');
-        return;
-    }
-    emptyMessage.classList.add('d-none');
-
-    for (const project of projects) {
-        const row = document.createElement('tr');
-
-        const createdAt = project.created_at ? new Date(project.created_at).toLocaleString() : '';
-
-        row.innerHTML = `
-            <td>${escapeHtml(project.name)}</td>
-            <td>${escapeHtml(project.description || '')}</td>
-            <td>${createdAt}</td>
-            <td class="text-end">
-                <button type="button" class="btn btn-sm btn-outline-secondary btnEditar">Editar</button>
-                <button type="button" class="btn btn-sm btn-outline-danger btnEliminar">Eliminar</button>
-            </td>
-        `;
-
-        row.querySelector('.btnEditar').addEventListener('click', () => openModal(project));
-        row.querySelector('.btnEliminar').addEventListener('click', () => handleDelete(project));
-
-        tableBody.appendChild(row);
-    }
-}
-
-async function handleSubmit(event) {
-    event.preventDefault();
-    formErrorMessage.classList.add('d-none');
-
-    const id = projectIdInput.value;
-    const payload = {
-        name: projectNameInput.value.trim(),
-        description: projectDescriptionInput.value.trim() || null
-    };
-
-    try {
-        const response = await fetch(id ? `/api/projects/${id}` : '/api/projects', {
-            method: id ? 'PUT' : 'POST',
-            headers: { 'Content-Type': 'application/json' },
-            body: JSON.stringify(payload)
-        });
-
-        const data = await response.json();
-
-        if (!response.ok || !data.success) {
-            throw new Error(data.message || 'No se pudo guardar el proyecto.');
+    async function loadProjects() {
+        listErrorMessage.classList.add('d-none');
+        try {
+            const response = await fetch('/api/projects');
+            const data = await response.json();
+            if (!response.ok || !data.success) {
+                throw new Error(data.message || 'No se pudieron cargar los proyectos.');
+            }
+            renderProjects(data.projects);
+        } catch (error) {
+            listErrorMessage.textContent = error.message;
+            listErrorMessage.classList.remove('d-none');
         }
-
-        projectModal.hide();
-        await loadProjects();
-    } catch (error) {
-        formErrorMessage.textContent = error.message;
-        formErrorMessage.classList.remove('d-none');
-    }
-}
-
-async function handleDelete(project) {
-    if (!confirm(`¿Eliminar el proyecto "${project.name}"?`)) {
-        return;
     }
 
-    try {
-        const response = await fetch(`/api/projects/${project.id}`, { method: 'DELETE' });
-        const data = await response.json();
-
-        if (!response.ok || !data.success) {
-            throw new Error(data.message || 'No se pudo eliminar el proyecto.');
+    function renderProjects(projects) {
+        tableBody.innerHTML = '';
+        if (!projects || projects.length === 0) {
+            emptyMessage.classList.remove('d-none');
+            return;
         }
+        emptyMessage.classList.add('d-none');
 
-        await loadProjects();
-    } catch (error) {
-        listErrorMessage.textContent = error.message;
-        listErrorMessage.classList.remove('d-none');
+        for (const project of projects) {
+            const row = document.createElement('tr');
+            const createdAt = project.created_at ? new Date(project.created_at).toLocaleString() : '';
+            row.innerHTML = `
+                <td><strong>${escapeHtml(project.name)}</strong></td>
+                <td class="text-muted">${escapeHtml(project.description || '')}</td>
+                <td><small>${createdAt}</small></td>
+            `;
+            tableBody.appendChild(row);
+        }
     }
-}
 
-function escapeHtml(value) {
-    const div = document.createElement('div');
-    div.textContent = value;
-    return div.innerHTML;
-}
+    function escapeHtml(value) {
+        const div = document.createElement('div');
+        div.textContent = value;
+        return div.innerHTML;
+    }
 </script>
-
 </body>
 </html>

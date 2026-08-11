@@ -3,12 +3,13 @@ const express = require("express");
 const logService = require("./services/log.service");
 const mockDataService = require("./services/mockData.service");
 const asignacionRoutes = require("./routers/asignacionRoutes");
-
+const dashboardRouter = require('./routers/dashboardRouter');
 const app = express();
 const PORT = process.env.PORT || 3000;
 
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
+app.use('/api/dashboard', dashboardRouter);
 
 // Healthcheck para pruebas de integración y monitoreo
 app.get("/api/status", (req, res) => {
@@ -232,5 +233,6 @@ if (require.main === module) {
     console.log(`Servidor ejecutándose en http://localhost:${PORT}`);
   });
 }
+
 
 module.exports = app;
