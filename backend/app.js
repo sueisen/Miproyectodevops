@@ -4,12 +4,58 @@ const logService = require("./services/log.service");
 const mockDataService = require("./services/mockData.service");
 const asignacionRoutes = require("./routers/asignacionRoutes");
 const dashboardRouter = require('./routers/dashboardRouter');
+const crypto = require("crypto");
 const app = express();
 const PORT = process.env.PORT || 3000;
 
+
+
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
+
+// Métricas simples en memoria
+const monitoringMetrics = {
+  totalRequests: 0,
+  successfulRequests: 0,
+  failedRequests: 0,
+  totalResponseTimeMs: 0
+};
+
+// Middleware de monitoreo
+app.use((req, res, next) => {
+  const start = Date.now();
+  const traceId = crypto.randomUUID();
+
+  req.traceId = traceId;
+  res.setHeader("X-Trace-Id", traceId);
+
+  if (req.originalUrl === "/api/metrics") {
+    return next();
+  }
+
+  monitoringMetrics.totalRequests++;
+
+  res.on("finish", () => {
+    const responseTime = Date.now() - start;
+
+    monitoringMetrics.totalResponseTimeMs += responseTime;
+
+    if (res.statusCode >= 200 && res.statusCode < 400) {
+      monitoringMetrics.successfulRequests++;
+    } else {
+      monitoringMetrics.failedRequests++;
+    }
+
+    console.log(
+      `[TRACE ${traceId}] ${req.method} ${req.originalUrl} - ${res.statusCode} - ${responseTime}ms`
+    );
+  });
+
+  next();
+});
+
 app.use('/api/dashboard', dashboardRouter);
+
 
 // Healthcheck para pruebas de integración y monitoreo
 app.get("/api/status", (req, res) => {
@@ -225,6 +271,38 @@ app.patch('/api/tasks/:taskId/status', async (req, res) => {
 app.get('/api/logs', async (req, res) => {
     const logs = await logService.obtenerLogs();
     return res.status(200).json({ success: true, logs });
+});
+
+app.get('/api/metrics', (req, res) => {
+  const users = mockDataService.listarUsuarios();
+  const projects = mockDataService.listarProyectos();
+  const tasks = mockDataService.listarTareas();
+
+  const averageResponseTimeMs =
+    monitoringMetrics.totalRequests > 0
+      ? monitoringMetrics.totalResponseTimeMs / monitoringMetrics.totalRequests
+      : 0;
+
+  const successRate =
+    monitoringMetrics.totalRequests > 0
+      ? (monitoringMetrics.successfulRequests / monitoringMetrics.totalRequests) * 100
+      : 100;
+
+  return res.status(200).json({
+    success: true,
+    metrics: {
+      users: users.length,
+      projects: projects.length,
+      tasks: tasks.length,
+      requests: {
+        total: monitoringMetrics.totalRequests,
+        successful: monitoringMetrics.successfulRequests,
+        failed: monitoringMetrics.failedRequests,
+        averageResponseTimeMs: Number(averageResponseTimeMs.toFixed(2)),
+        successRate: Number(successRate.toFixed(2))
+      }
+    }
+  });
 });
 
 // Ejecución del servidor solo si se corre directamente
