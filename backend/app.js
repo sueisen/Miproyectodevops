@@ -1,5 +1,6 @@
 const path = require("path");
 const express = require("express");
+const taskRouter = require('./routers/taskRouter');
 const logService = require("./services/log.service");
 const mockDataService = require("./services/mockData.service");
 const asignacionRoutes = require("./routers/asignacionRoutes");
@@ -12,6 +13,7 @@ const PORT = process.env.PORT || 3000;
 
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
+app.use('/api/tasks', taskRouter);
 
 // Métricas simples en memoria
 const monitoringMetrics = {
